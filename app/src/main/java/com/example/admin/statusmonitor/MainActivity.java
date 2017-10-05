@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,9 @@ import static com.example.admin.statusmonitor.University.displayAll;
 
 public class MainActivity extends AppCompatActivity {
     Context c;
+
     ArrayList<String> unis;
+    String[] arr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -23,32 +24,21 @@ public class MainActivity extends AppCompatActivity {
         c=this;
         System.out.println(displayAll(this));
         unis = University.displayAll(this);
-        LinearLayout rl = (LinearLayout)findViewById(R.id.ll);
-        for (final String uni : unis)
-        {
-            Button clickUni = new Button(c);
-            rl.addView(clickUni);
-            clickUni.setText(uni);
-            clickUni.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(c, WebFill.class);
-                    University uniDet = new University(c).displayDetail(uni);
-                    i.putExtra("flag","directed");
-                    //i.putExtra("hmNameValues",uniDet.getHmfieldNamesValues());
-
-                    i.putExtra("hmIdValues",uniDet.getHmIdValues());
-                    System.out.println("hm received is"+uniDet.getHmIdValues());
-                    i.putStringArrayListExtra("idNames",uniDet.getNames());
-                    //i.putStringArrayListExtra("")
-                    i.putExtra("link",uniDet.getUniLink());
-                    startActivity(i);
-
-                }
-            });
+        arr = new String[unis.size()];
+        int j =0;
+        for(String uni : unis) {
+            arr[j++] = uni;
         }
 
-    }
+
+        CustomArrayAdapterMain cam = new CustomArrayAdapterMain(this,arr);
+        ListView lv = (ListView)findViewById(R.id.lvu);
+        lv.setAdapter(cam);
+
+        }
+
+
+
 
     public void add(View v)
     {
@@ -58,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
 }
 
 

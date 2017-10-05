@@ -28,10 +28,10 @@ public class UniAdder extends AppCompatActivity {
         String uniName = ((EditText)findViewById(R.id.uniName)).getText().toString();
         //DataResource dr = new DataResource(this);
         ArrayList<String> unis = (ArrayList<String>)(this.getIntent()).getSerializableExtra("allNames");
-        if(uniName==null||uniName.isEmpty()||unis.contains(uniName.toUpperCase()))
+        if(uniName==null||uniName.isEmpty()||unis.contains(uniName.toUpperCase())||link==null||link.isEmpty())
         {
             new AlertDialog.Builder(this)
-            .setMessage("Duplicate Name cannot be added")
+            .setMessage("Duplicate or Empty Names and Empty Links cannot be added")
             .setNeutralButton("Okay",null)
             .show();
 

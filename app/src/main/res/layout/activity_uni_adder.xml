@@ -43,9 +43,9 @@
             android:text="University Status Check Link" />
         <EditText
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="75dp"
             android:layout_weight="1"
-            android:hint="Enter website where you want to monitor status"
+            android:hint="https://www.example.com"
             android:id="@+id/link"/>
 
 

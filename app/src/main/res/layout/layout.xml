@@ -16,5 +16,6 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:id="@+id/ed"
+
         android:layout_weight="1"/>
 </LinearLayout>

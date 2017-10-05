@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import se.simbio.encryption.Encryption;
+
 /**
  * Created by admin on 10/03/17.
  */
@@ -100,13 +102,17 @@ public class University {
     }
     public boolean insertUniDetails()
     {
+        Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
+        String encrypted = "";
 
         for(String id : IdNames) {
             ContentValues cv = new ContentValues();
+
             cv.put("UniName", UniName.toUpperCase());
             //cv.put("FieldName", name);
             cv.put("FieldId", id);
-            cv.put("FieldValue", hmIdValues.get(id));
+            encrypted = encryption.encryptOrNull(hmIdValues.get(id));
+            cv.put("FieldValue",encrypted );
 
             database.insert("UniD",null,cv);
         }
@@ -143,28 +149,23 @@ public class University {
         University uni = new University(this.c);
         SQLiteDatabase databaseRead = dr.getReadableDatabase();
         Cursor cursor1 = databaseRead.rawQuery("select*from UniLinks where UniName=?",new String[]{UniName});
-        //System.out.println(cursor.getColumnName(0));
+
         cursor1.moveToNext();
         uni.setUniLink(cursor1.getString(1));
-       // else
-        //return null;
         Cursor cursor = databaseRead.rawQuery("select*from UniD where UniName='"+UniName+"'",null);
-        //databaseRead.query("UniD",new String[]{"UniName","FieldId","FieldValue"},"UniName=?",new String[]{UniName},null,null,null);//.rawQuery("select*from UniD where UniName=?",new String[]{UniName});
-
-        //HashMap<String,String> hmNameValues = new HashMap<>();
-        //HashMap<String,String> hmNameIds = new HashMap<>();
         HashMap<String,String> hmIdValues = new HashMap<>();
         ArrayList<String> names = new ArrayList<>();
         String FieldName,FieldValue,FieldId;
+        String decrypted = "";
+        Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
         while(cursor.moveToNext())
         {
             System.out.println("no of rows="+cursor.getString(0));
-            //FieldName = cursor.getString(1);
+
             FieldId = cursor.getString(1);
             FieldValue = cursor.getString(2);
-            //hmNameValues.put(FieldName,FieldValue);
-            //hmNameIds.put(FieldName,FieldId);
-            hmIdValues.put(FieldId,FieldValue);
+            decrypted = encryption.decryptOrNull(FieldValue);
+            hmIdValues.put(FieldId,decrypted);
             names.add(FieldId);
 
         }
@@ -179,6 +180,11 @@ public class University {
 
 
 
+    }
+    public void deleteUni(String uniName)
+    {
+        database.delete("UniLinks","UniName=?",new String[]{uniName});
+        database.delete("UniD","UniName=?",new String[]{uniName});
     }
 
 

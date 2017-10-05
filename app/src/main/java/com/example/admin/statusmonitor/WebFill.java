@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,6 +20,7 @@ public class WebFill extends AppCompatActivity {
     HashMap<String,String> hmIdValues;
     ArrayList<String> idNames;
     String script="";
+    View gif;
 
 
 
@@ -36,10 +38,15 @@ public class WebFill extends AppCompatActivity {
         webView = (WebView) findViewById(wv);
         System.out.println("loading url= "+url);
 
-        webView.loadUrl(url);
-        (webView.getSettings()).setJavaScriptEnabled(true);
 
-        webView.setWebChromeClient(new WebChromeClient());/*new WebChromeClient() {
+        webView.loadUrl(url);
+
+         gif = findViewById(R.id.imgGif);
+        int idImg = i.getIntExtra("imgId",0);
+        gif.setBackgroundResource(idImg);
+        (webView.getSettings()).setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.setWebChromeClient(new WebChromeClient());/* {
                                        @Override
                                        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                                            //Required functionality here
@@ -47,6 +54,9 @@ public class WebFill extends AppCompatActivity {
                                            return super.onJsAlert(view, url, message, result);
                                        }
                                    });*/
+        webView.getSettings().setSupportMultipleWindows(true);
+
+        //webView.getSettings().setAllowFileAccess(true);
         Toast.makeText(this,"Please remember to log out or you won't be able to use it again",Toast.LENGTH_LONG).show();
          //script = "javascript:";
         System.out.println("ids"+idNames.toString());
@@ -72,6 +82,9 @@ public class WebFill extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                gif.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+
 
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
@@ -108,12 +121,18 @@ public class WebFill extends AppCompatActivity {
 
     }
     @Override
+    public void onBackPressed() {
+     finish();
+    }
+
+        @Override
     public boolean onKeyDown(int keyCode,KeyEvent keyEvent)
     {
         if(keyCode==KeyEvent.KEYCODE_BACK)
         {
             Intent i = new Intent(this,MainActivity.class);
             startActivity(i);
+            finish();
             return true;
         }
 

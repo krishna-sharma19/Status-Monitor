@@ -11,9 +11,16 @@
     tools:context="com.example.admin.statusmonitor.WebFill"
     android:configChanges="orientation|keyboardHidden|screenSize"
     >
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imgGif"
+
+        />
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:id="@+id/wv"
         />
 
