@@ -7,5 +7,4 @@ It automates your actions by filling up your credentials, so the next time you w
 <img src="https://github.com/bumblebee19/Status-Monitor/blob/master/screenshots/Screenshot_2017-03-31-22-12-05.png" width="200">
 <img src="https://github.com/bumblebee19/Status-Monitor/blob/master/screenshots/Screenshot_2017-03-31-22-12-14.png" width="200">
 <img src="https://github.com/bumblebee19/Status-Monitor/blob/master/screenshots/Screenshot_2017-03-31-22-13-52.png" width="200">
-![Alt Text](gifs.com/embed/status-monitor-BLoZ0X)
-<!--<br><img align="middle" src="https://github.com/bumblebee19/Status-Monitor/blob/master/screenshots/gif.gif" width="200"><br>-->
+![Alt Text](https://gifs.com/embed/status-monitor-BLoZ0X)
